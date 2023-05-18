@@ -32,6 +32,8 @@ import { GestionParcialidadesComponent } from './modules/gestion-parcialidades/g
 import { HomeComponent } from './modules/componentes-comunes/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
 
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +76,10 @@ import { LoginComponent } from './modules/login/login.component';
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
+    },
+    {
+      provide:LocationStrategy, 
+      useClass: HashLocationStrategy
     }
   ],
   bootstrap: [AppComponent],
