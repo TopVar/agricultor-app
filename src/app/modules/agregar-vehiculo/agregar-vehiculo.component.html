@@ -1,0 +1,158 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title" >Vehículos</mat-card-title>
+    <div class="row mt-2" > 
+      <div class="col-sm py-3 ps-2 pe-3">
+        <div>
+            <button mat-button class="btn-container mt-3" (click)="createTransportista()" color="primary" *ngIf="viewing">
+                <mat-icon>add</mat-icon>
+                Agregar Vehículos
+              </button>
+        </div>
+        <mat-card class="parent">
+            <div *ngIf="inicio">
+                <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-5 col-lg-4 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="applyFilter($event)">
+                  </mat-form-field>
+                  <div class="result-count">
+                    <span class="title">Resultados de búsqueda </span>
+                    <span class="count">{{dataSource.data.length}}</span>
+                  </div>
+                  <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                      <ng-container matColumnDef="placa">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Placa
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.placaVehiculo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="marca">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Marca
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.marcaVehiculo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Estado
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.estadoVehiculo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                         Tipo Vehículo
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.tipoVehiculo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="modelo">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Modelo
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.modeloVehiculo}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="color">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Color
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.colorVehiculo}} </td>
+                       </ng-container>
+                       <ng-container matColumnDef="peso">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Peso
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.pesoVehiculo}} </td>
+                       </ng-container>
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell *matCellDef="let item">
+                          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                            <mat-icon>more_horiz</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item title="Modifica el transportista" (click)="modificar(item)">
+                              <mat-icon class="iconos">query_stats</mat-icon>
+                              <span>Modificar</span>
+                            </button>
+          
+                          </mat-menu>
+                        </td>
+                      </ng-container>
+          
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div>
+                      <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                      aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                    </div>
+                  </div>
+            </div>
+            <div *ngIf="!inicio">
+                <form [formGroup]="generalFormGroup">
+                    <div class="row">
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Placa
+                            </mat-label>
+                            <input matInput formControlName="placa">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Marca
+                            </mat-label>
+                            <input matInput formControlName="marca">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6" *ngIf="inicio">
+                            <mat-label>
+                              Estado
+                            </mat-label>
+                            <input matInput formControlName="estado">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Tipo Vehiculo
+                            </mat-label>
+                            <input matInput formControlName="tipo">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Modelo
+                            </mat-label>
+                            <input matInput formControlName="modelo" type="number">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Color
+                            </mat-label>
+                            <input matInput formControlName="color">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Peso
+                            </mat-label>
+                            <input matInput formControlName="peso" type="number">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div class="d-flex">
+                  <button mat-button class="btn-container mt-3" (click)="cancelar()"color="primary">
+                    <mat-icon>cancel</mat-icon>
+                    Cancelar
+                  </button>
+                    <button mat-button class="btn-container mt-3" (click)="guardar()" color="primary" *ngIf="!btnSave">
+                        <mat-icon>save</mat-icon>
+                        Guardar Cambios
+                      </button>
+                      <button mat-button class="btn-container mt-3" (click)="save()"color="primary" *ngIf="btnSave">
+                        <mat-icon>save</mat-icon>
+                        Guardar
+                      </button>
+                </div>
+            </div>
+          
+        </mat-card>
+      </div>    
+    </div>
+  </div>

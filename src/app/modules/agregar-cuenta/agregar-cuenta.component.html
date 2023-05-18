@@ -1,0 +1,265 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+  <mat-card-title class="main-title" >
+    <button mat-icon-button (click)="regresar()" *ngIf="!inicio">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    Bandeja de Ventas</mat-card-title>
+  <div class="row mt-2" > 
+    <div class="col-sm py-3 ps-2 pe-3">
+      <div class="d-flex" *ngIf="!viewing">
+          <button mat-button class="btn-container mt-3" (click)="createVenta()" color="primary" >
+              <mat-icon>add</mat-icon>
+              Agregar Venta
+          </button>
+      </div>
+      <br>
+      <mat-card class="parent">
+          <div *ngIf="inicio">
+              <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-5 col-lg-4 me-0 me-sm-0 me-md-3 me-lg-4">
+                  <mat-label>Filtro</mat-label>
+                  <input matInput (keyup)="applyFilter($event)">
+                </mat-form-field>
+                <div class="result-count">
+                  <span class="title">Resultados de búsqueda </span>
+                  <span class="count">{{dataSource.data.length}}</span>
+                </div>
+                <div class="table-responsive">
+                  <table mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        ID Cuenta <br> Corriente
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.idCuentaCorriente}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="peso">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Peso Total
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.peso}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cantidad">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Cantidad <br> Parcialidades
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.cantidad}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="agricultor">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Agricultor Proveedor
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.agricultor}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="estado">
+                      <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                        Estado
+                      </th>
+                      <td mat-cell *matCellDef="let item"> {{item.estadoNombre}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                      <td mat-cell *matCellDef="let item">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                          <mat-icon>more_horiz</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button mat-menu-item title="Detalle de la cuenta" (click)="verDetalle(item)" >
+                            <mat-icon class="iconos">visibility</mat-icon>
+                            <span>Ver Detalle</span>
+                          </button>
+                          <button mat-menu-item title="Modifica la cuenta" (click)="modificar(item)" *ngIf="item.estado == 9">
+                            <mat-icon class="iconos">done</mat-icon>
+                            <span>Corregir</span>
+                          </button>
+        
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <div>
+                      <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                        aria-label="Select page of periodic elements">
+                      </mat-paginator>
+                  </div>
+                </div>
+          </div>
+          <div *ngIf="!inicio">
+              <div>
+                  <form [formGroup]="generalFormGroup">
+                      <div class="row">
+                          <mat-form-field class="col-sm-6">
+                              <mat-label>
+                                Peso Total
+                              </mat-label>
+                              <input matInput formControlName="peso" type="number">
+                          </mat-form-field>
+                          <mat-form-field class="col-sm-6">
+                              <mat-label>
+                                Cantidad Parcialidades
+                              </mat-label>
+                              <input matInput formControlName="cantidadParcialidades" type="number">
+                          </mat-form-field>
+                      </div>
+                  </form>
+              </div>
+              <br>
+              <br>
+              <div>
+                  <div class="result-count">
+                      <span class="title">Vehiculos Asignados</span>
+                  </div>
+                  <div class="row" *ngIf="!btnVerDetalle">
+                    <form action="" [formGroup]="detalleFormGroup">
+                      <mat-form-field  >
+                        <mat-label>Seleccione un Vehículo</mat-label>
+                        <mat-select required="true" formControlName="vehiculoSeleccionable">
+                          <mat-option [value]="imp" *ngFor="let imp of vehiculosAutorizados">
+                            {{imp.placa}}
+                          </mat-option>
+                          <mat-option >Prueba</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </form>
+                  </div>
+                  <div style="text-align:end" *ngIf="!btnVerDetalle">
+                    <button mat-button class="btn-container" color="primary" (click)="agregarVehiculo()">
+                      <mat-icon>add</mat-icon>Agregar
+                    </button>
+                  </div>
+                  <div class="table-responsive">
+                      <table mat-table [dataSource]="dataSource2" matSort>
+                          <ng-container matColumnDef="placa">
+                              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                Placa
+                              </th>
+                              <td mat-cell *matCellDef="let item"> {{item.placaVehiculo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="marca">
+                              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                Marca
+                              </th>
+                              <td mat-cell *matCellDef="let item"> {{item.marcaVehiculo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="tipo">
+                              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                               Tipo Vehículo
+                              </th>
+                              <td mat-cell *matCellDef="let item"> {{item.tipoVehiculo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="modelo">
+                              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                Modelo
+                              </th>
+                              <td mat-cell *matCellDef="let item"> {{item.modeloVehiculo}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="color">
+                              <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                Color
+                              </th>
+                              <td mat-cell *matCellDef="let item"> {{item.colorVehiculo}} </td>
+                             </ng-container>
+                             <ng-container matColumnDef="acciones" *ngIf="!btnVerDetalle">
+                              <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                              <td mat-cell *matCellDef="let item">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                                  <mat-icon>more_horiz</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                  <button mat-menu-item title="Modifica el transportista" (click)="asignarTransportista(item)">
+                                    <mat-icon class="iconos">add</mat-icon>
+                                    <span>Asignar Transportista</span>
+                                  </button>
+                                  <button mat-menu-item title="Modifica el transportista" (click)="quitarVehiculo(item)">
+                                    <mat-icon class="iconos">delete</mat-icon>
+                                    <span>Eliminar</span>
+                                  </button>                
+                                </mat-menu>
+                              </td>
+                            </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                      </table>
+                  </div>
+                  <br>
+                  <br>
+                  <div *ngIf="btnAsignar">
+                    <div class="result-count">
+                      <span class="title">Transportistas Asignados</span>
+                    </div>
+                      <div class="row" *ngIf="!btnVerDetalle">
+                        <form [formGroup]="detalleFormGroup">
+                          <mat-form-field>
+                            <mat-label>Seleccione al Transportista</mat-label>
+                            <mat-select formControlName="transportistaSeleccionable">
+                              <mat-option [value]="imp" *ngFor="let imp of transportistaAutorizados">
+                                {{imp.nombre}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </form>
+                      </div>
+                      <div style="text-align:end" *ngIf="!btnVerDetalle">
+                        <button mat-button class="btn-container" color="primary" (click)="agregarTransportista()">
+                          <mat-icon>add</mat-icon>Agregar
+                        </button>
+                      </div>
+                      <div class="table-responsive">
+                          <table mat-table [dataSource]="dataSource3" matSort>
+                              <ng-container matColumnDef="licencia">
+                                  <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                    Licencia
+                                  </th>
+                                  <td mat-cell *matCellDef="let item"> {{item.idLicencia}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="nombre">
+                                  <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                    Nombre Transportista
+                                  </th>
+                                  <td mat-cell *matCellDef="let item"> {{item.nombreTransportista}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="tipo">
+                                  <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                  Tipo Licencia
+                                  </th>
+                                  <td mat-cell *matCellDef="let item"> {{item.tipoLicencia}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="acciones" *ngIf="!btnVerDetalle">
+                                  <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                                  <td mat-cell *matCellDef="let item">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                                      <mat-icon>more_horiz</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                      <button mat-menu-item title="Modifica el transportista" (click)="quitarTransportista(item)">
+                                        <mat-icon class="iconos">delete</mat-icon>
+                                        <span>Eliminar</span>
+                                      </button>                
+                                    </mat-menu>
+                                  </td>
+                                </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                          </table>
+                      </div>
+                  </div>
+                  
+              </div>             
+              
+          </div>
+        
+      </mat-card>
+      <div style="margin-right: end;" *ngIf="dataSource3.data.length > 0" class="d-flex">
+        <button mat-menu-item title="Modifica el transportista" (click)="guardar()" class="btn-container mt-3" >
+          <mat-icon class="iconos">done</mat-icon>
+          <span>Guardar</span>
+        </button> 
+        <button mat-menu-item title="Modifica el transportista" (click)="crearCuenta()" *ngIf="vehiculosAutorizados.length > 0" class="btn-container mt-3">
+          <mat-icon class="iconos">save</mat-icon>
+          <span>Crear Cuenta</span>
+        </button> 
+      </div>
+    </div>    
+  </div>
+</div>

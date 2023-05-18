@@ -1,0 +1,194 @@
+<div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
+    <mat-card-title class="main-title" >
+      <button mat-icon-button (click)="regresar()" *ngIf="!inicio">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      Bandeja de Cuentas</mat-card-title>
+    <div class="row mt-2" > 
+      <div class="col-sm py-3 ps-2 pe-3">
+        <mat-card class="parent">
+            <div *ngIf="inicio">
+                <mat-form-field appearance="standard" class="col-12 col-sm-12 col-md-5 col-lg-4 me-0 me-sm-0 me-md-3 me-lg-4">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="applyFilter($event)">
+                  </mat-form-field>
+                  <div class="result-count">
+                    <span class="title">Resultados de búsqueda </span>
+                    <span class="count">{{dataSource.data.length}}</span>
+                  </div>
+                  <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                      <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Número de Cuenta
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.numeroCuenta}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="peso">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Peso Total
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.peso}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Cantidad <br> Parcialidades
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.cantidad}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="agricultor">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Agricultor Proveedor
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.agricultor}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                          Estado
+                        </th>
+                        <td mat-cell *matCellDef="let item"> {{item.estadoNombre}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                        <td mat-cell *matCellDef="let item">
+                          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                            <mat-icon>more_horiz</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button mat-menu-item title="Detalle de la cuenta" (click)="verDetalle(item)" >
+                              <mat-icon class="iconos">visibility</mat-icon>
+                              <span>Ver Detalle</span>
+                            </button>          
+                          </mat-menu>
+                        </td>
+                      </ng-container>
+          
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div>
+                        <mat-paginator #MatPaginator2="matPaginator" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                          aria-label="Select page of periodic elements">
+                        </mat-paginator>
+                    </div>
+                  </div>
+            </div>
+            <div *ngIf="!inicio">
+                <div>
+                    <form [formGroup]="generalFormGroup">
+                        <div class="row">
+                            <mat-form-field class="col-sm-6">
+                                <mat-label>
+                                  Peso Total
+                                </mat-label>
+                                <input matInput formControlName="peso" type="number">
+                            </mat-form-field>
+                            <mat-form-field class="col-sm-6">
+                                <mat-label>
+                                  Cantidad Parcialidades
+                                </mat-label>
+                                <input matInput formControlName="cantidadParcialidades" type="number">
+                            </mat-form-field>
+                            <mat-form-field class="col-sm-6">
+                              <mat-label>
+                                Proveedor
+                              </mat-label>
+                              <input matInput formControlName="agricultor" type="text">
+                          </mat-form-field>
+                          <mat-form-field class="col-sm-6">
+                            <mat-label>
+                              Estado
+                            </mat-label>
+                            <input matInput formControlName="estado" type="text">
+                        </mat-form-field>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <br>
+                <div>
+                  <div class="result-count">
+                    <span class="title">Asignación de Vehiculo</span>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <form [formGroup]="detalleFormGroup">
+                        <mat-form-field >
+                          <mat-label>Seleccione un procedimiento</mat-label>
+                          <mat-select formControlName="vehiculoSeleccionable">
+                            <mat-option [value]="imp" *ngFor="let imp of listVehiculos">
+                              {{imp.placaVehiculo}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </form>
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-radio-group [value]="selected" (change)="selected = $event.value">
+                        <mat-radio-button *ngFor="let option of listTransportistas" [value]="option.idLicencia">
+                          {{ option.nombreTransportista}}
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                    <div class="result-count">
+                        <span class="title">Parcialidades de la Cuenta</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSource2" matSort>
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                  ID Parcialidad
+                                </th>
+                                <td mat-cell *matCellDef="let item"> {{item.idParcialidad}} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="cuenta">
+                                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                  Número Cuenta
+                                </th>
+                                <td mat-cell *matCellDef="let item"> {{item.numeroCuenta}} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="peso">
+                                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                 Peso
+                                </th>
+                                <td mat-cell *matCellDef="let item"> {{item.peso}} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="estado">
+                                <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
+                                  Estado
+                                </th>
+                                <td mat-cell *matCellDef="let item"> {{item.nombreEstado}} </td>
+                              </ng-container>
+                               <ng-container matColumnDef="acciones">
+                                <th mat-header-cell *matHeaderCellDef class="header-table"></th>
+                                <td mat-cell *matCellDef="let item">
+                                  <div *ngIf="validated(item)">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Acciones">
+                                      <mat-icon>more_horiz</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                      <button mat-menu-item title="Enviar Parcialidad" (click)="enviarParcialidad(item)" >
+                                        <mat-icon class="iconos">local_shipping</mat-icon>
+                                        <span>Enviar Parcialidad</span>
+                                      </button>               
+                                    </mat-menu>
+                                  </div>
+                                </td>
+                              </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                        </table>
+                    </div>
+                    
+                </div>
+                
+                
+            </div>
+          
+        </mat-card>
+      </div>    
+    </div>
+  </div>

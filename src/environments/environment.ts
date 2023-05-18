@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  //BASE_WS: 'https://agricultor-cafetito-ws.azurewebsites.net',
+  BASE_WS_LOCAL: 'http://localhost:8081'
 };
 
 /*

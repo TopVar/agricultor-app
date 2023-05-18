@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-action-list>
+        <div mat-subheader>
+            Menu
+        </div>
+        <button mat-list-item>
+            <mat-icon mat-list-icon>home</mat-icon>
+            Inicio
+        </button>
+        <button mat-list-item [routerLink]="['/agricultor/profile/']">
+            <mat-icon mat-list-icon>account_circle</mat-icon>
+            Perfil
+        </button>
+        <button mat-list-item [routerLink]="['/agricultor/vehiculos']" *ngIf="roles.includes('AGRICULTOR_ADMIN')">
+            <mat-icon mat-list-icon>local_shipping</mat-icon>
+            Agregar Vehículos
+        </button>
+        <button mat-list-item [routerLink]="['/agricultor/transportistas']" *ngIf="roles.includes('AGRICULTOR_ADMIN')">
+            <mat-icon mat-list-icon>airline_seat_recline_normal</mat-icon>
+            Agregar Transportistas
+        </button>
+        <button mat-list-item [routerLink]="['/agricultor/ventas']" *ngIf="roles.includes('AGRICULTOR_VENTAS')">
+            <mat-icon mat-list-icon>list_alt</mat-icon>
+            Agregar Cuentas
+        </button>
+        <button mat-list-item [routerLink]="['/agricultor/cuentas']" *ngIf="roles.includes('AGRICULTOR_ENVIOS')">
+            <mat-icon mat-list-icon>list_alt</mat-icon>
+            Bandeja de Cuentas
+        </button>
+    </mat-action-list>
+</mat-card>
