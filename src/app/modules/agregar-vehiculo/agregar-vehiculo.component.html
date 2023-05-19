@@ -1,11 +1,11 @@
 <div class="my-2 my-sm-3 my-md-4 my-lg-5 mx-2 mx-sm-3 mx-md-4 mx-lg-5">
-    <mat-card-title class="main-title" >Vehículos</mat-card-title>
+    <mat-card-title class="main-title" >VehÃ­culos</mat-card-title>
     <div class="row mt-2" > 
       <div class="col-sm py-3 ps-2 pe-3">
         <div>
             <button mat-button class="btn-container mt-3" (click)="createTransportista()" color="primary" *ngIf="viewing">
                 <mat-icon>add</mat-icon>
-                Agregar Vehículos
+                Agregar VehÃ­culos
               </button>
         </div>
         <mat-card class="parent">
@@ -15,7 +15,7 @@
                     <input matInput (keyup)="applyFilter($event)">
                   </mat-form-field>
                   <div class="result-count">
-                    <span class="title">Resultados de búsqueda </span>
+                    <span class="title">Resultados de bÃºsqueda </span>
                     <span class="count">{{dataSource.data.length}}</span>
                   </div>
                   <div class="table-responsive">
@@ -40,7 +40,7 @@
                       </ng-container>
                       <ng-container matColumnDef="tipo">
                         <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
-                         Tipo Vehículo
+                         Tipo VehÃ­culo
                         </th>
                         <td mat-cell *matCellDef="let item"> {{item.tipoVehiculo}} </td>
                       </ng-container>

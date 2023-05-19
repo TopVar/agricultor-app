@@ -71,6 +71,7 @@ export class AgregarTransportistaComponent implements OnInit {
     this.btnSave = true;
     this.inicio = false;
     this.readonly = false;
+    this.generalFormGroup.reset();
 
   }
 
@@ -89,7 +90,7 @@ export class AgregarTransportistaComponent implements OnInit {
 
     this.transportistaService.editar(transportista).subscribe(res =>{
       if(res){
-        Swal.fire("Cambio exitoso", 'Se modificó correctamente el trasnportista','success').then(() =>{
+        Swal.fire("Cambios Guardados", "Se modificó correctamente al transportista",'success').then(() =>{
           this.qr = true
         });
         
@@ -105,6 +106,7 @@ export class AgregarTransportistaComponent implements OnInit {
   }
 
   cancelar(){
+    this.generalFormGroup.reset();
     this.inicio = true;
     this.viewing= true;
   }
@@ -120,8 +122,10 @@ export class AgregarTransportistaComponent implements OnInit {
   }
   this.transportistaService.registrar(transportista).subscribe(res =>{
     if(res){
-      Swal.fire("Creación exitosa", 'Se agrego correctamente al trasnportista','success');
+      Swal.fire("Transportista Creado", "Se agregó correctamente al transportista",'success').then(()=>{
         this.ngOnInit()
+      })
+        
     }else{
       this.snack.open('No se pudo agregar al transportista', 'Aceptar',{
         duration: 3000,

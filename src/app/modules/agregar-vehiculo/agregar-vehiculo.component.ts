@@ -40,6 +40,8 @@ export class AgregarVehiculoComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.inicio = true;
+    this.viewing= true;
     this.vehiculoService.getAll().subscribe(res =>{
       console.log("QUE TRAE",res);
       
@@ -73,6 +75,7 @@ export class AgregarVehiculoComponent implements OnInit {
     this.btnSave = true;
     this.inicio = false;
     this.readonly = false;
+    this.generalFormGroup.reset();
   }
 
   guardar(){
@@ -91,8 +94,9 @@ export class AgregarVehiculoComponent implements OnInit {
 
   this.vehiculoService.editar(transportista).subscribe(res =>{
     if(res){
-      Swal.fire("Cambio exitoso", 'Se modificó correctamente el vehículo','success');
-      this.cancelar();
+      Swal.fire("Cambio exitoso", 'Se modificó correctamente el vehículo','success').then(()=>{
+        this.ngOnInit();
+      })
     }else{
       this.snack.open('No se pudo guardar los cambios', 'Aceptar',{
         duration: 3000,
@@ -106,6 +110,7 @@ export class AgregarVehiculoComponent implements OnInit {
   cancelar(){
     this.inicio = true;
     this.viewing= true;
+    this.generalFormGroup.reset();
   }
 
   save(){
@@ -123,8 +128,9 @@ export class AgregarVehiculoComponent implements OnInit {
   
   this.vehiculoService.registrar(vehiculo).subscribe(res =>{
     if(res){
-      Swal.fire("Creación exitosa", 'Se agrego correctamente el vehiculo','success');
-        this.cancelar();
+      Swal.fire("Creación exitosa", 'Se agrego correctamente el vehiculo','success').then(()=>{
+        this.ngOnInit();
+      })
     }else{
       this.snack.open('No se pudo agregar el vehiculo', 'Aceptar',{
         duration: 3000,

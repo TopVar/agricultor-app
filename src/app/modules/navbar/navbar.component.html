@@ -1,1 +1,21 @@
-<p>navbar works!</p>
+<mat-toolbar color="primary">
+    <a [routerLink]="'/'" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu_books</mat-icon>
+    </a>
+    <span>Bienvenido Agricultor</span>
+    <span class="example-spacer"></span>
+    <!-- <a *ngIf="!loginService.isLoggedIn()" [routerLink]="'/login'" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        Iniciar Sesi�n
+    </a>
+    <a *ngIf="loginService.isLoggedIn()" [routerLink]="'/login'" mat-icon-button class="example-icon favorite-icon" 
+    aria-label="Example icon-button with heart icon" (click)="logout()" style="margin-right: 50px;">
+        Cerrar Sesi�n
+    </a>
+    <a *ngIf="!loginService.isLoggedIn()" [routerLink]="'/signup'" mat-icon-button class="example-icon favorite-icon mr20 ml70" aria-label="Example icon-button with heart icon">
+        Registrarse
+    </a> -->
+    <button *ngIf="loginService.isLoggedIn()" mat-icon-button class="example-icon favorite-icon" 
+    aria-label="Example icon-button with heart icon" mat-button style="margin-right: 10px;">
+    Usuario
+    </button>
+</mat-toolbar>

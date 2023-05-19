@@ -13,14 +13,14 @@
                     <input matInput (keyup)="applyFilter($event)">
                   </mat-form-field>
                   <div class="result-count">
-                    <span class="title">Resultados de búsqueda </span>
+                    <span class="title">Resultados de bÃºsqueda </span>
                     <span class="count">{{dataSource.data.length}}</span>
                   </div>
                   <div class="table-responsive">
                     <table mat-table [dataSource]="dataSource" matSort>
                       <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
-                          Número de Cuenta
+                          NÃºmero de Cuenta
                         </th>
                         <td mat-cell *matCellDef="let item"> {{item.numeroCuenta}} </td>
                       </ng-container>
@@ -108,13 +108,13 @@
                 <br>
                 <div>
                   <div class="result-count">
-                    <span class="title">Asignación de Vehiculo</span>
+                    <span class="title">AsignaciÃ³n de Vehiculo</span>
                   </div>
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-5">
                       <form [formGroup]="detalleFormGroup">
                         <mat-form-field >
-                          <mat-label>Seleccione un procedimiento</mat-label>
+                          <mat-label>Seleccione un vehÃ­culo</mat-label>
                           <mat-select formControlName="vehiculoSeleccionable">
                             <mat-option [value]="imp" *ngFor="let imp of listVehiculos">
                               {{imp.placaVehiculo}}
@@ -123,7 +123,9 @@
                         </mat-form-field>
                       </form>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-7">
+                      <mat-label>Seleccione transportista</mat-label>
+                      <br>
                       <mat-radio-group [value]="selected" (change)="selected = $event.value">
                         <mat-radio-button *ngFor="let option of listTransportistas" [value]="option.idLicencia">
                           {{ option.nombreTransportista}}
@@ -146,7 +148,7 @@
                               </ng-container>
                               <ng-container matColumnDef="cuenta">
                                 <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
-                                  Número Cuenta
+                                  NÃºmero Cuenta
                                 </th>
                                 <td mat-cell *matCellDef="let item"> {{item.numeroCuenta}} </td>
                               </ng-container>

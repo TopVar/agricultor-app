@@ -31,6 +31,7 @@ import { AgregarVehiculoComponent } from './modules/agregar-vehiculo/agregar-veh
 import { GestionParcialidadesComponent } from './modules/gestion-parcialidades/gestion-parcialidades.component';
 import { HomeComponent } from './modules/componentes-comunes/home/home.component';
 import { LoginComponent } from './modules/login/login.component';
+import { NavbarComponent } from './modules/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { LoginComponent } from './modules/login/login.component';
     HomeComponent,
     LoginComponent,
     DashboardComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -62,11 +64,11 @@ import { LoginComponent } from './modules/login/login.component';
     MatSnackBarModule,
     MatToolbarModule,
     MatListModule,
-   NgxSpinnerModule,
    FormsModule,
    MatSelectModule,
    MatOptionModule,
-   MatRadioModule
+   MatRadioModule,
+   NgxSpinnerModule
   ],
   providers: [
     HttpClient,

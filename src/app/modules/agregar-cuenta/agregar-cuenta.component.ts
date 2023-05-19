@@ -240,8 +240,10 @@ export class AgregarCuentaComponent implements OnInit {
 
     this.cuentaService.crearVenta(objeto).subscribe(res =>{
       if(res){
-        Swal.fire("Creaci�n exitosa", 'Se agrego correctamente al trasnportista','success');
-        this.ngOnInit()
+        Swal.fire("Creación exitosa", 'Se agrego correctamente al trasnportista','success').then(()=>{
+          this.ngOnInit()
+        })
+        
       }else{
         this.snack.open('No se pudo agregar al transportista', 'Aceptar',{
           duration: 3000,

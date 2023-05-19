@@ -15,7 +15,7 @@
                     <input matInput (keyup)="applyFilter($event)">
                   </mat-form-field>
                   <div class="result-count">
-                    <span class="title">Resultados de búsqueda </span>
+                    <span class="title">Resultados de bÃºsqueda </span>
                     <span class="count">{{dataSource.data.length}}</span>
                   </div>
                   <div class="table-responsive">
@@ -46,7 +46,7 @@
                       </ng-container>
                       <ng-container matColumnDef="tel">
                         <th mat-header-cell *matHeaderCellDef class="header-table" mat-sort-header>
-                          Teléfono
+                          TelÃ©fono
                         </th>
                         <td mat-cell *matCellDef="let item"> {{item.telefonoTransportista}} </td>
                       </ng-container>
@@ -111,13 +111,13 @@
                         </mat-form-field>
                         <mat-form-field class="col-sm-6">
                             <mat-label>
-                              Teléfono
+                              TelÃ©fono
                             </mat-label>
                             <input matInput formControlName="tel">
                         </mat-form-field>
                         <mat-form-field class="col-sm-6">
                             <mat-label>
-                              Correo Electrónico
+                              Correo ElectrÃ³nico
                             </mat-label>
                             <input matInput formControlName="correo">
                         </mat-form-field>
@@ -138,6 +138,10 @@
                         Guardar
                       </button>
                 </div>
+            </div>
+
+            <div *ngIf="qr">
+              
             </div>
           
         </mat-card>

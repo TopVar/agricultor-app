@@ -8,6 +8,7 @@ import { AgregarTransportistaComponent } from './modules/agregar-transportista/a
 import { AgregarCuentaComponent } from './modules/agregar-cuenta/agregar-cuenta.component';
 import { GestionParcialidadesComponent } from './modules/gestion-parcialidades/gestion-parcialidades.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { NormalGuard } from './modules/componentes-comunes/servicios/normal.guard';
 
 const routes: Routes = [
   { 
@@ -29,6 +30,7 @@ const routes: Routes = [
     path: 'agricultor', 
     component: DashboardComponent,
     pathMatch: 'prefix',
+    canActivate: [NormalGuard],
     children: [
       /* {
         path: 'profile',

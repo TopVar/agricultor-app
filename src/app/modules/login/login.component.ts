@@ -38,11 +38,7 @@ export class LoginComponent implements OnInit {
       const roles: string[] = response.roles.split(',');
 
       if(response != null){
-        if(roles.find(rol => rol === 'AGRICULTOR_VENTAS' || rol === 'AGRICULTOR_ENVIOS' || rol === 'AGRICULTOR_ADMIN')){
           this.router.navigate(['agricultor']);
-        }else{
-          this.router.navigate(['cafetito']);
-        }
       }else{
         this.snack.open('Acceso Denegado', 'Aceptar',{
           duration: 3000,
