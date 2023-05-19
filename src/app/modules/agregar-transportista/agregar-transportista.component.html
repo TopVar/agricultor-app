@@ -67,6 +67,11 @@
                               <mat-icon class="iconos">query_stats</mat-icon>
                               <span>Modificar</span>
                             </button>
+                            <button mat-menu-item title="Generar QR" (click)="generarQR(item.idLicencia)">
+                              <!-- <i class="fa fa-qrcode fa-lg" aria-hidden="true"></i> -->
+                              <mat-icon class="iconos">code</mat-icon>
+                              <span>Generar QR Code</span>
+                            </button>
           
                           </mat-menu>
                         </td>
@@ -139,12 +144,28 @@
                       </button>
                 </div>
             </div>
-
-            <div *ngIf="qr">
-              
-            </div>
           
         </mat-card>
       </div>    
     </div>
   </div>
+
+  <!-- QR Code Modal -->
+<div class="modal" [class.visible]="qrModalVisible">
+  <div class="modal-content">
+    <img [src]="qrCodeUrl" alt="QR Code">
+    <!-- <h3> {{nombre}} </h3> -->
+    <br>
+    <div class="button-row">
+      <button mat-button color="primary" (click)="printQRCode()">
+        <mat-icon class="iconos">print</mat-icon> 
+        Imprimir
+      </button>
+      <button mat-button color="warn" (click)="ngOnInit()">
+        <mat-icon class="iconos">close</mat-icon> 
+        Cerrar
+      </button>
+    </div>
+
+  </div>
+</div>

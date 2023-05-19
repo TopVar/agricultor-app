@@ -17,3 +17,12 @@
         email: string;
         estado?: number;
     }
+
+    export interface QrTransportistaDto{
+        numeroLicencia: string;
+        tipoLicencia: string;
+        nombre: string;
+        telefono: string;
+        email: string;
+        estado?: number;
+    }

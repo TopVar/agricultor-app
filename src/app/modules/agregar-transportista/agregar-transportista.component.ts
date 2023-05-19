@@ -25,7 +25,10 @@ export class AgregarTransportistaComponent implements OnInit {
   viewing: Boolean = true;
   btnSave!: boolean;
   readonly!: boolean;
-  qr!: Boolean
+  qrModalVisible: boolean = false;
+  qrCodeUrl!: string;
+  nombre!: string;
+
 
   constructor(private snack: MatSnackBar, 
     private transportistaService: TransportistaService) {
@@ -33,6 +36,8 @@ export class AgregarTransportistaComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
+    this.qrModalVisible = false;
     
     this.transportistaService.getAll().subscribe(res =>{
       console.log("QUE TRAE",res);
@@ -90,8 +95,9 @@ export class AgregarTransportistaComponent implements OnInit {
 
     this.transportistaService.editar(transportista).subscribe(res =>{
       if(res){
-        Swal.fire("Cambios Guardados", "Se modificó correctamente al transportista",'success').then(() =>{
-          this.qr = true
+        Swal.fire("Cambio exitoso", 'Se modificó correctamente el transportista','success').then(() =>{
+          //this.nombre = transportista.nombreTransportista;
+          this.generarQR(transportista.idLicencia);
         });
         
       }else{
@@ -122,10 +128,10 @@ export class AgregarTransportistaComponent implements OnInit {
   }
   this.transportistaService.registrar(transportista).subscribe(res =>{
     if(res){
-      Swal.fire("Transportista Creado", "Se agregó correctamente al transportista",'success').then(()=>{
-        this.ngOnInit()
+      Swal.fire("Creación exitosa", 'Se agrego correctamente al transportista','success').then(()=>{
+        this.generarQR(res.licencia);
       })
-        
+      
     }else{
       this.snack.open('No se pudo agregar al transportista', 'Aceptar',{
         duration: 3000,
@@ -146,6 +152,63 @@ export class AgregarTransportistaComponent implements OnInit {
       tel: new FormControl({value: "", disabled: false}),
       correo: new FormControl({value: "", disabled: false})      
     })
+  }
+
+  generarQR(licencia: String) {
+   // this.nombre = item.nombreTransportista;
+   // path: 'transportista/validacion/:licencia/:idParcialidad', 
+   //path nube:  https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/GHIJKL67890/67
+    //const data = 'https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/GHIJKL67890/67';
+    const data = 'https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/'+ licencia +'/67';
+    const size = '150x150';
+    this.transportistaService.generateQRCode(data, size).subscribe(
+      (blob: Blob) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          this.qrCodeUrl = reader.result as string;
+          this.qrModalVisible = true; // Show the modal
+        };
+        reader.readAsDataURL(blob);
+      },
+      (error: any) => {
+        console.error('Failed to generate QR code:', error);
+      }
+    );
+  }
+
+  printQRCode() {
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      const document = printWindow.document;
+      document.write(`
+        <html>
+          <head>
+            <title>Print QR Code</title>
+            <style>
+              body {
+                margin: 0; 
+                font-family: Roboto, "Helvetica Neue", sans-serif; 
+                background: #f5f5f5;
+
+                text-align: center;
+              }
+              h3 {
+                margin-top: 30px;
+              }
+              img {
+                margin-top: 20px;
+                max-width: 100%;
+              }
+            </style>
+          </head>
+          <body>
+            <img src="${this.qrCodeUrl}" alt="QR Code">
+          </body>
+        </html>
+      `);
+      document.close();
+      printWindow.print();
+    }
   }
 
 }

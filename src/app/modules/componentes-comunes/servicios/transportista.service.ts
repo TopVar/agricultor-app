@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 import { Observable, map} from 'rxjs';
-import { TransportistaDto, TransportistaInterface } from '../interfaces/transportista.interface';
+import { QrTransportistaDto, TransportistaDto, TransportistaInterface } from '../interfaces/transportista.interface';
 import { AutenticationInterface } from '../interfaces/usuario.interface';
 import { RespuestaInterface } from '../interfaces/mensaje.interface';
 
@@ -25,12 +25,12 @@ export class TransportistaService {
         return this.http.get(environment.BASE_WS_LOCAL + '/agricultor/transportistas/all', { headers });
     }
 
-    registrar(param: TransportistaDto): Observable<RespuestaInterface> {
+    registrar(param: TransportistaDto): Observable<TransportistaDto> {
           //obtenemos el token del localStorage
       //const token = sessionStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
 
-      return this.http.post<RespuestaInterface>(environment.BASE_WS_LOCAL + '/agricultor/transportistas/registrar', param,{ headers});
+      return this.http.post<TransportistaDto>(environment.BASE_WS_LOCAL + '/agricultor/transportistas/registrar', param,{ headers});
     }
 
     editar(param: TransportistaInterface): Observable<RespuestaInterface> {
@@ -66,4 +66,15 @@ export class TransportistaService {
     }
 
 
+    //genera QR code para Transportista autorizado
+    generateQRCode(data: string, size: string = '200x200') {
+      const url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(data)}&size=${encodeURIComponent(size)}`;
+      return this.http.get(url, { responseType: 'blob' });
+    }
+
+    //obtiene datos de un transportista en el sistema del agricultor
+    getTransportistaByLicencia(licencia: string) {
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
+      return this.http.get<QrTransportistaDto>(environment.BASE_WS_LOCAL + `/agricultor/transportistas/validar/${licencia}`, {headers});
+    }
 }
