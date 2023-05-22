@@ -33,11 +33,11 @@ export class TransportistaService {
       return this.http.post<TransportistaDto>(environment.BASE_WS_LOCAL + '/agricultor/transportistas/registrar', param,{ headers});
     }
 
-    editar(param: TransportistaInterface): Observable<RespuestaInterface> {
+    editar(param: TransportistaInterface): Observable<TransportistaInterface> {
           //obtenemos el token del localStorage
       //const token = sessionStorage.getItem('token');
       const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-      return this.http.put<RespuestaInterface>(environment.BASE_WS_LOCAL + '/agricultor/transportistas/editar',param, { headers});
+      return this.http.put<TransportistaInterface>(environment.BASE_WS_LOCAL + '/agricultor/transportistas/editar',param, { headers});
     }
 
     transportistaAutorizadoBeneficio(): Observable<any> {      

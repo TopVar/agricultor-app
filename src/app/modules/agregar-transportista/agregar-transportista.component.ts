@@ -159,7 +159,7 @@ export class AgregarTransportistaComponent implements OnInit {
    // path: 'transportista/validacion/:licencia/:idParcialidad', 
    //path nube:  https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/GHIJKL67890/67
     //const data = 'https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/GHIJKL67890/67';
-    const data = 'https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/'+ licencia +'/67';
+    const data = 'https://beneficio-cafe-app.azurewebsites.net/#/transportista/validacion/'+ licencia;
     const size = '150x150';
     this.transportistaService.generateQRCode(data, size).subscribe(
       (blob: Blob) => {

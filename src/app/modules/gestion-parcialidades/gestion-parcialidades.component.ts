@@ -118,7 +118,7 @@ export class GestionParcialidadesComponent implements OnInit {
     this.parcialidadService.envioParcialidad(param).subscribe(res =>{
       console.log(res);
       if(res){
-        Swal.fire("Envio exitoso", 'Se mando la parcialidad correctamente','success').then(()=>{
+        Swal.fire("Envio exitoso", 'La parcialidad ha sido enviada correctamente','success').then(()=>{
           this.ngOnInit();
         })
         
@@ -137,20 +137,13 @@ export class GestionParcialidadesComponent implements OnInit {
   validated(item: ParcialidadInterface):Boolean{
     const index = this.dataSource2.data.findIndex(k => k.idParcialidad == item.idParcialidad)
     const i =  index - 1 < 0 ? 0 : index -1
-    let validation = this.dataSource2.data[0] == item? true: false;
+    //let validation = false;
+    if(this.dataSource2.data[0] == item && item.estado == 10) return true;
 
-    if(this.dataSource2.data.length == 1 && item.estado == 10){
-      validation = true;
-    }else{
-      validation = item.estado == 10  && !validation ? true : false;   
-      
-      validation = this.dataSource2.data[i].estado == 13 && validation ? true : false
-      //validation = this.dataSource2.data.filter(e => e.estado == 10)[0] == item && !validation? true : false 
-      //console.log(validation);
-    }    
-    
-    return validation;
+    if( this.dataSource2.data[i].estado == 13 && item.estado == 10) return true;
 
+    return false;
+  
   }
 
 
