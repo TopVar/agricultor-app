@@ -101,6 +101,14 @@
                               </mat-label>
                               <input matInput formControlName="cantidadParcialidades" type="number">
                           </mat-form-field>
+                          <mat-form-field class="col-sm-6">
+                            <mat-label>Seleccione una medida</mat-label>
+                            <mat-select formControlName="tipoMedidaSeleccionable">
+                              <mat-option [value]="imp.value" *ngFor="let imp of tipoMedida">
+                                {{imp.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
                       </div>
                   </form>
               </div>

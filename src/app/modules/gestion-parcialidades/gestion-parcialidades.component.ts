@@ -46,6 +46,7 @@ export class GestionParcialidadesComponent implements OnInit {
       cantidadParcialidades: new FormControl({value: "", disabled: true}),
       agricultor: new FormControl({value: "", disabled: true}),
       estado: new FormControl({value: "", disabled: true}),
+      medida: new FormControl({value: "", disabled: true}),
     })
 
     this.detalleFormGroup = new FormGroup({
@@ -77,7 +78,8 @@ export class GestionParcialidadesComponent implements OnInit {
       peso: item.peso,
       cantidadParcialidades: item.cantidad,
       agricultor: item.agricultor,
-      estado: item.estadoNombre
+      estado: item.estadoNombre,
+      medida: item.tipoMedida
     })
 
     this.parcialidadService.getParcialidadesCuenta(item.idCuentaCorriente).subscribe(res =>{
@@ -130,6 +132,13 @@ export class GestionParcialidadesComponent implements OnInit {
         });
       }
       
+    },
+    error =>{
+      this.snack.open('No se pudo guardar los cambios', 'Aceptar',{
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
     })
 
   }
@@ -140,7 +149,7 @@ export class GestionParcialidadesComponent implements OnInit {
     //let validation = false;
     if(this.dataSource2.data[0] == item && item.estado == 10) return true;
 
-    if( this.dataSource2.data[i].estado == 13 && item.estado == 10) return true;
+    if( (this.dataSource2.data[i].estado == 13 || this.dataSource2.data[i].estado == 28) && item.estado == 10) return true;
 
     return false;
   

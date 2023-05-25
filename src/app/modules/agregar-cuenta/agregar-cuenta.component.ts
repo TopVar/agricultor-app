@@ -22,6 +22,15 @@ export class AgregarCuentaComponent implements OnInit {
     this.dataSource.paginator = mp2;
   }
 
+  tipoMedida: any[] = [
+    { value: "kg", viewValue: 'Kilogramo (kg)' },
+    { value: "t", viewValue: 'Tonelada (t)' },
+    { value: "g", viewValue: 'Gramo (g)' },
+    { value: "mg", viewValue: 'Miligramo (mg)' },
+    { value: "oz", viewValue: 'Onza (oz)' },
+    { value: "lb", viewValue: 'Libra (lb)' }
+  ];
+
   displayedColumns: string[] = ['id','peso', 'cantidad','agricultor', 'estado', 'acciones'];
   dataSource = new MatTableDataSource<CuentaInterface>();
   inicio: Boolean = true;
@@ -54,6 +63,7 @@ export class AgregarCuentaComponent implements OnInit {
       this.generalFormGroup = new FormGroup({
         peso: new FormControl({value: "", disabled: false}),
         cantidadParcialidades: new FormControl({value: "", disabled: false}),
+        tipoMedidaSeleccionable: new FormControl(''),
       })
     
   }
@@ -64,6 +74,8 @@ export class AgregarCuentaComponent implements OnInit {
     this.btnVerDetalle = false;
     this.btnAsignar = false;
     this.dataSource3.data = []
+    this.generalFormGroup.reset();
+    this.detalleFormGroup.reset();
     this.cuentaService.getCuentasPorAprobarCorregirRechazadas().subscribe(res =>{
       console.log(res);
       
@@ -89,6 +101,7 @@ export class AgregarCuentaComponent implements OnInit {
     this.btnAsignar = false;
     this.generalFormGroup.reset()
     this.vehiculosAutorizados = []
+    this.detalleFormGroup.reset();
     this.dataSeleccionables();
     if(!this.displayedColumns2.includes('acciones')){
       this.displayedColumns2.push('acciones');
@@ -143,7 +156,8 @@ export class AgregarCuentaComponent implements OnInit {
     
     this.generalFormGroup.patchValue({
       peso: item.peso,
-      cantidadParcialidades: item.cantidad
+      cantidadParcialidades: item.cantidad,
+      tipoMedidaSeleccionable: item.tipoMedida
     })
 
     if(!this.displayedColumns2.includes('acciones')){
@@ -229,18 +243,24 @@ export class AgregarCuentaComponent implements OnInit {
     this.inicio = true;
     this.viewing = false;
     this.dataSource3.data = []
+    this.generalFormGroup.reset();
+    this.detalleFormGroup.reset();
   }
 
   crearCuenta(){
     const objeto: CuentaInterface = {
       cantidad: this.generalFormGroup.get('cantidadParcialidades')?.value,
       peso: this.generalFormGroup.get('peso')?.value,
+      tipoMedida: this.generalFormGroup.get('tipoMedidaSeleccionable')?.value,
       vehiculos: this.vehiculosAsignados
     }
 
+    console.log(objeto);
+    
+
     this.cuentaService.crearVenta(objeto).subscribe(res =>{
       if(res){
-        Swal.fire("Creación exitosa", 'Se agrego correctamente al trasnportista','success').then(()=>{
+        Swal.fire("Creación exitosa", 'Se agrego correctamente la venta','success').then(()=>{
           this.ngOnInit()
         })
         

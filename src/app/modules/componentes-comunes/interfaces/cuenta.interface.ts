@@ -29,6 +29,7 @@ import { VehiculoInterface } from "./vehiculo.interface";
         estado?: number;
         estadoNombre?: string;
         idCuentaCorriente?: number;
+        tipoMedida: string;
         vehiculos: VehiculosAsignados[];
     }
 
@@ -62,6 +63,7 @@ import { VehiculoInterface } from "./vehiculo.interface";
         agricultor: string;
         estadoNombre: string;
         estado: number;
+        tipoMedida: string;
     }
 
     

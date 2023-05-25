@@ -30,11 +30,11 @@ import { BandejaCuentas, CuentaInterface, ParamCrearCuenta, RespuestaCreacion } 
         return this.http.post<RespuestaCreacion>(environment.BASE_WS_LOCAL + `/cafetito/cuenta/crear`,param, { headers });
     } */
 
-    getCuentasPorAprobarCorregirRechazadas(): Observable<any> {
+    getCuentasPorAprobarCorregirRechazadas(): Observable<CuentaInterface[]> {
         //obtenemos el token del localStorage
         const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
   
-        return this.http.get(environment.BASE_WS_LOCAL + '/agricultor/cuenta/estado', { headers });
+        return this.http.get<CuentaInterface[]>(environment.BASE_WS_LOCAL + '/agricultor/cuenta/estado', { headers });
       }
   
       getCuentasGeneral(): Observable<BandejaCuentas[]> {

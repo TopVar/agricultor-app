@@ -19,7 +19,23 @@ export class NormalGuard implements CanActivate {
         this.router.navigate(['/login']);
         return false;
       }
-    return true;
+
+      const usuario = JSON.parse(sessionStorage.getItem("authData")!)
+      const roles = usuario.roles.split(",")      
+      const agricultorRol = ['AGRICULTOR_VENTAS', 'AGRICULTOR_ENVIOS','AGRICULTOR_ADMIN']
+
+      if(route.url[0].path.match('agricultor') && roles.some((role: string) => agricultorRol.includes(role))){
+        
+        return true;
+      }
+      
+
+      this.router.navigate(['/login']);
+       return true;
   }
+
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    return this.canActivate(childRoute, state);
+   }
   
 }
